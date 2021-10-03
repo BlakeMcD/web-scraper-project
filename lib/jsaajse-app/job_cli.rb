@@ -47,45 +47,58 @@ class JsaajseApp::JobCLI
         puts "-------------------"
     end
 
+    def contains_letter_or_symbol(str)
+        str.match(/[\D]/)
+    end
+
     #prompt user
     def prompt_location_selection
+
         divider()
         puts "select the city you would like to search for:"
 
+
         input = gets.strip.to_i
 
-        case JsaajseApp::Job.locations.sort[input-1]
-            when "Adelaide"
-                list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
-            when "Brisbane"
-                puts "you picked Brisbane"
-            when "Melbourne"
-                list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
-            when "Perth"
-                list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
-            when "Sunshine Coast"
-                puts "you picked Sunshine Coast"
-            when "Sydney"
-                puts "you picked Sydney"
-            when "Across Australia"
-                list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
-            else
-                puts "Wrong input foo!"
+        if input == 0 || input > JsaajseApp::Job.locations.length 
+            puts "you done messed up!"
+            JsaajseApp::Job.clear_locations
+            unique_locations() 
+            prompt_location_selection()
+        # elsif contains_letter_or_symbol(input)
+        #     puts "you put a symbol in here, you peasant!"
+        else
+            list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
         end
+
+        # if contains_letter_or_symbol(input)
+        #     puts "you put a symbol in here, you peasant!"
+        # else
+        #     list_jobs_by_location(JsaajseApp::Job.locations.sort[input])
+        # end
+        
     end
 
     def list_jobs_by_location(city)
         puts "Junior Software Developer Jobs: #{city.upcase}"
 
         if city == "Across Australia" 
-            puts "these jobs are listed across Australia"
-        elsif city == "Perth"
-            puts "these jobs are listed in Perth"
+            JsaajseApp::Job.all.map.with_index(1) do |job, i|
+                puts "#{i}: #{job.job_title}"
+                puts job.location
+                puts "#{job.company_name}"
+                puts job.statement
+        
+                puts job.url
+        
+                divider()
+                divider()
+            end
         else
-            JsaajseApp::Job.all.map do |job|
+            JsaajseApp::Job.all.map.with_index(1) do |job, i|
                 if job.location.include?(city)
 
-                    puts "#{job.job_title}"
+                    puts "#{i}: #{job.job_title}"
                     puts job.location
                     puts "#{job.company_name}"
                     puts job.statement
