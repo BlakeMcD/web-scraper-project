@@ -29,9 +29,9 @@ class Scraper
             job.url = base_url+post.css("h1 a").first["href"] 
         end
     end
-
 end
 
-p Scraper.new.make_jobs
+Scraper.new.make_jobs
+p Job.all
 
 
