@@ -56,13 +56,13 @@ class JsaajseApp::JobCLI
 
         case JsaajseApp::Job.locations.sort[input-1]
             when "Adelaide"
-                puts "you picked Adelaide"
+                list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
             when "Brisbane"
                 puts "you picked Brisbane"
             when "Melbourne"
-                puts "you picked Melbourne"
+                list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
             when "Perth"
-                puts "you picked Perth"
+                list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
             when "Sunshine Coast"
                 puts "you picked Sunshine Coast"
             when "Sydney"
@@ -78,21 +78,24 @@ class JsaajseApp::JobCLI
         puts "Junior Software Developer Jobs: #{city.upcase}"
 
         if city == "Across Australia" 
-            
+            puts "these jobs are listed across Australia"
+        elsif city == "Perth"
+            puts "these jobs are listed in Perth"
         else
-            
-        end
-        JsaajseApp::Job.all.each.with_index(1) do |job, i|
-            puts "#{i}. #{job.job_title}"
-            puts "#{job.company_name}"
-            puts job.statement
+            JsaajseApp::Job.all.map do |job|
+                if job.location.include?(city)
 
-            puts job.url
+                    puts "#{job.job_title}"
+                    puts job.location
+                    puts "#{job.company_name}"
+                    puts job.statement
 
-            divider()
-            divider()
+                    puts job.url
+
+                    divider()
+                    divider()
+                end
+            end
         end
     end
-
-
 end
