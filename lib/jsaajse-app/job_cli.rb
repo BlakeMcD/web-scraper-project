@@ -76,7 +76,22 @@ class JsaajseApp::JobCLI
         # else
         #     list_jobs_by_location(JsaajseApp::Job.locations.sort[input])
         # end
-        
+    end
+
+    def prompt_return_to_mainscreen
+        puts "Input [list] to view the location options"
+        puts "Input [exit] to exit the app"
+
+        input = gets.strip.downcase
+        if input == "list" 
+            unique_locations() 
+            prompt_location_selection()
+        elsif input == "exit"
+            exit
+        else
+            puts "invalid input!"
+            prompt_return_to_mainscreen
+        end
     end
 
     def list_jobs_by_location(city)
@@ -110,5 +125,6 @@ class JsaajseApp::JobCLI
                 end
             end
         end
+        prompt_return_to_mainscreen
     end
 end
