@@ -12,6 +12,8 @@ class JsaajseApp::JobCLI
         divider()
         new_line()
         unique_locations() 
+        prompt_location_selection()
+
     end
 
     def list_jobs
@@ -21,14 +23,13 @@ class JsaajseApp::JobCLI
     end
 
     def unique_locations
-        locations = []
         JsaajseApp::Job.all.each do |job| 
-            unless locations.include?(job.location.strip)
-                locations << job.location
+            unless JsaajseApp::Job.locations.include?(job.location.strip)
+                JsaajseApp::Job.locations << job.location
             end  
         end
-        locations << "Wherever"
-        display_unique_locations(locations)
+        JsaajseApp::Job.locations << "Across Australia"
+        display_unique_locations(JsaajseApp::Job.locations)
     end
 
     def display_unique_locations(array)
@@ -52,6 +53,46 @@ class JsaajseApp::JobCLI
         puts "select the city you would like to search for:"
 
         input = gets.strip.to_i
+
+        case JsaajseApp::Job.locations.sort[input-1]
+            when "Adelaide"
+                puts "you picked Adelaide"
+            when "Brisbane"
+                puts "you picked Brisbane"
+            when "Melbourne"
+                puts "you picked Melbourne"
+            when "Perth"
+                puts "you picked Perth"
+            when "Sunshine Coast"
+                puts "you picked Sunshine Coast"
+            when "Sydney"
+                puts "you picked Sydney"
+            when "Across Australia"
+                list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
+            else
+                puts "Wrong input foo!"
+        end
     end
+
+    def list_jobs_by_location(city)
+        puts "Junior Software Developer Jobs: #{city.upcase}"
+
+        if city == "Across Australia" 
+            
+        else
+            
+        end
+        JsaajseApp::Job.all.each.with_index(1) do |job, i|
+            puts "#{i}. #{job.job_title}"
+
+            puts job.statement
+
+            puts job.url
+
+            divider()
+            divider()
+        end
+    end
+
 
 end
