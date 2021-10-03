@@ -84,7 +84,7 @@ class JsaajseApp::JobCLI
         end
         JsaajseApp::Job.all.each.with_index(1) do |job, i|
             puts "#{i}. #{job.job_title}"
-
+            puts "#{job.company_name}"
             puts job.statement
 
             puts job.url
