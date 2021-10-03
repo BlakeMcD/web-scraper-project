@@ -1,6 +1,7 @@
-class JobCLI 
+class JsaajseApp::JobCLI 
 
     def initialize
+        JsaajseApp::Scraper.new.make_jobs
     end
 
     def start

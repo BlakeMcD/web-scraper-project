@@ -1,4 +1,4 @@
-class Job 
+class JsaajseApp::Job 
 
     attr_accessor :job_title, :company_name, :location, :statement, :url
 
