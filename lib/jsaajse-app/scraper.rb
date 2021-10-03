@@ -18,7 +18,7 @@ class JsaajseApp::Scraper
        self.get_jobs.map do |post|
 
             base_url = "https://www.seek.com.au/"
-            
+
             job = JsaajseApp::Job.new
 
             job.job_title = post.css("h1").text.strip 
@@ -30,7 +30,9 @@ class JsaajseApp::Scraper
     end
 
     def make_jobs_for_multiple_pages
+        puts "Loading jobs"
         while @@page_number < 6 
+            print "="
             make_jobs
             @@page_number += 1
         end
