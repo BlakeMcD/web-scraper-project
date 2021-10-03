@@ -18,6 +18,7 @@ class JsaajseApp::Scraper
             job = JsaajseApp::Job.new
 
             job.job_title = post.css("h1").text.strip 
+            job.company_name = post.css("span._3mgsa7- a._17sHMz8").text.strip
             job.location = post.css("span._3mgsa7- strong._7ZnNccT a._17sHMz8").text.strip.gsub('Information & Communication Technology','') 
             job.statement = post.css("span._2OKR1ql").text.strip
             job.url = base_url+post.css("h1 a").first["href"] 
@@ -25,7 +26,7 @@ class JsaajseApp::Scraper
     end
 end
 
-# Scraper.new.make_jobs
+Scraper.new.make_jobs
 # p Job.all
 
 
