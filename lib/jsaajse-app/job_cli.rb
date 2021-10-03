@@ -1,19 +1,19 @@
 class JsaajseApp::JobCLI 
 
     def initialize
-        JsaajseApp::Scraper.new.make_jobs
+        JsaajseApp::Scraper.new.make_jobs_for_multiple_pages
     end
 
     def start
         system("clear")
         puts "Welcome to JSAAJSE - An app that searches seek.com.au for Australian junior software engineer roles." 
         puts ""
-        new_line()
-        divider()
-        new_line()
+        new_line
+        divider
+        new_line
         yao_ming
-        unique_locations() 
-        prompt_location_selection()
+        unique_locations 
+        prompt_location_selection
 
     end
 
@@ -55,7 +55,7 @@ class JsaajseApp::JobCLI
     #prompt user
     def prompt_location_selection
 
-        divider()
+        divider
         puts "select the city you would like to search for:"
 
 
@@ -64,8 +64,8 @@ class JsaajseApp::JobCLI
         if input == 0 || input > JsaajseApp::Job.locations.length 
             puts "you done messed up!"
             JsaajseApp::Job.clear_locations
-            unique_locations() 
-            prompt_location_selection()
+            unique_locations
+            prompt_location_selection
         # elsif contains_letter_or_symbol(input)
         #     puts "you put a symbol in here, you peasant!"
         else
@@ -85,8 +85,8 @@ class JsaajseApp::JobCLI
 
         input = gets.strip.downcase
         if input == "list" 
-            unique_locations() 
-            prompt_location_selection()
+            unique_locations
+            prompt_location_selection
         elsif input == "exit"
             exit
         else
@@ -107,8 +107,8 @@ class JsaajseApp::JobCLI
         
                 puts job.url
         
-                divider()
-                divider()
+                divider
+                divider
             end
         else
             JsaajseApp::Job.all.map.with_index(1) do |job, i|
@@ -121,8 +121,8 @@ class JsaajseApp::JobCLI
 
                     puts job.url
 
-                    divider()
-                    divider()
+                    divider
+                    divider
                 end
             end
         end
