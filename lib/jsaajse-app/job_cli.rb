@@ -140,18 +140,20 @@ class JsaajseApp::JobCLI
         new_line
 
         input = gets.strip.downcase
-        if input == "list" 
-            clear_city_and_locations_array
-            city_selection
-        elsif input == "pages"
-            clear_everything
-            page_selection
-        elsif input == "exit"
-            exit
-        else
-            problematic_input
-            new_line
-            prompt_return_to_mainscreen
+
+        case input
+            when "list"
+                clear_city_and_locations_array
+                city_selection
+            when "pages"
+                clear_everything
+                page_selection
+            when "exit"
+                exit
+            else
+                problematic_input
+                new_line
+                prompt_return_to_mainscreen
         end
     end
 
@@ -165,7 +167,8 @@ class JsaajseApp::JobCLI
 
         if city == "Across Australia" 
             JsaajseApp::Job.all.map.with_index(1) do |job, i|
-                puts "LSTING NUM:  #{i}"
+                puts "LISTING NUM: #{i}"
+                puts "LOCATION:    #{job.location}"
                 puts "COMPANY:     #{job.company_name}"
                 puts "TITLE:       #{job.job_title}"
                 puts "DESCRIPTION: #{job.statement}"
@@ -179,7 +182,7 @@ class JsaajseApp::JobCLI
                 end               
             end
             JsaajseApp::Job.city_array.map.with_index(1) do |job, i|
-                puts "LSTING NUM:  #{i}"
+                puts "LISTING NUM:  #{i}"
                 puts "COMPANY:     #{job.company_name}"
                 puts "TITLE:       #{job.job_title}"
                 puts "DESCRIPTION: #{job.statement}"
