@@ -3,7 +3,7 @@ class JsaajseApp::Scraper
     attr_accessor :page_number
 
     @@page_number = 1
-    MAXPAGE = 6
+    MAXPAGE = 12
 
     def get_page
         url = "https://www.seek.com.au/junior-software-engineer-jobs?page=#{page_number}&salaryrange=70000-999999&salarytype=annual"

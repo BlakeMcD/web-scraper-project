@@ -104,16 +104,12 @@ class JsaajseApp::JobCLI
 
         if city == "Across Australia" 
             JsaajseApp::Job.all.map.with_index(1) do |job, i|
-                puts "#{i}: #{job.job_title}"
-                puts job.location
-                puts "#{job.company_name}"
-                puts job.statement
-        
-                puts job.url
-        
+                puts "LSTING NUM:  #{i}"
+                puts "COMPANY:     #{job.company_name}"
+                puts "TITLE:       #{job.job_title}"
+                puts "DESCRIPTION: #{job.statement}"
+                puts "POSTING URL: #{job.url}"
                 divider
-                divider
-
             end
         else
             JsaajseApp::Job.all.map.select do |job|
