@@ -109,6 +109,7 @@ class JsaajseApp::JobCLI
             problematic_input
             page_selection
         else
+            JsaajseApp::Scraper.page_number_reset
             clear_everything
             $max_page = input
             JsaajseApp::Scraper.new.make_jobs_for_multiple_pages

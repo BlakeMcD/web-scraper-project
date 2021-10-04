@@ -40,9 +40,15 @@ class JsaajseApp::Scraper
         end
         puts ""
     end
+
+    def self.page_number_reset
+        @@page_number = 1
+    end
 end
 
 # Scraper.new.make_jobs
 # p Job.all
+
+
 
 
