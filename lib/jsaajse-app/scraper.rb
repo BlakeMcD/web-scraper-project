@@ -3,7 +3,6 @@ class JsaajseApp::Scraper
     attr_accessor :page_number
 
     @@page_number = 1
-    # MAXPAGE = 12
     $max_page = 12
 
     def get_page
