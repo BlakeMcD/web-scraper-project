@@ -1,19 +1,15 @@
 class JsaajseApp::JobCLI 
 
-    def initialize
-        JsaajseApp::Scraper.new.make_jobs_for_multiple_pages
-    end
+    # def initialize
+    #     JsaajseApp::Scraper.new.make_jobs_for_multiple_pages
+    # end
 
     def start
         system("clear")
         divider_equals
         puts "Welcome to JSAAJSE - an app that searches seek.com.au for Australian junior software engineer roles." 
         divider_equals
-        new_line
-        puts "CITY SELECTION"
-        divider
-        unique_locations 
-        prompt_location_selection
+        page_selection
     end
 
     #Unique locations - goes through entire list, populates an array of unique locations stored in job.rb
@@ -46,6 +42,32 @@ class JsaajseApp::JobCLI
         puts "=================="
     end
 
+    def city_selection
+        new_line
+        puts "CITY SELECTION"
+        divider
+        unique_locations 
+        prompt_location_selection
+    end
+
+    def page_selection
+        new_line
+        puts "PAGE SELECTION"
+        divider
+        puts "how many pages would you like to scrape?"
+        divider
+        prompt_page_number_selection
+    end
+
+    def problematic_input
+        new_line
+        puts "What kind of an input was that?!?"
+        new_line
+        dissapointed_face
+        new_line
+        puts "please try again..."
+    end
+
     #Clearing Functions
     def clear_city_array
         JsaajseApp::Job.city_array_reset_all
@@ -55,17 +77,45 @@ class JsaajseApp::JobCLI
         JsaajseApp::Job.locations_reset_all
     end
 
+    def clear_jobs_array
+        JsaajseApp::Job.reset_all
+    end
+
     def clear_city_and_locations_array
         clear_city_array
         clear_locations_array
     end
 
+    def clear_everything
+        clear_city_array
+        clear_locations_array
+        clear_jobs_array
+    end
+
     #ASCII
     def dissapointed_face
-        puts "       ಠ_ಠ        "
+        puts "       ಠ_ಠ"
     end
 
     #prompts
+    def prompt_page_number_selection
+        new_line
+        puts "Please select a number between 1 - 50:"
+        new_line
+
+        input = gets.strip.to_i
+
+        if input == 0 || input > 50
+            problematic_input
+            page_selection
+        else
+            clear_everything
+            $max_page = input
+            JsaajseApp::Scraper.new.make_jobs_for_multiple_pages
+            city_selection
+        end
+    end
+
     def prompt_location_selection
 
         divider
@@ -76,17 +126,8 @@ class JsaajseApp::JobCLI
 
         if input == 0 || input > JsaajseApp::Job.locations.length 
             clear_locations_array
-            new_line
-            puts "What kind of an input was that?!?"
-            new_line
-            dissapointed_face
-            new_line
-            puts "please try again..."
-            new_line
-            puts "CITY SELECTION"
-            divider
-            unique_locations 
-            prompt_location_selection
+            problematic_input
+            city_selection
         else
             list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
         end
@@ -94,26 +135,21 @@ class JsaajseApp::JobCLI
 
     def prompt_return_to_mainscreen
         puts "Input [list] to view the location options"
+        puts "Input [pages] to change the number of pages you'd like to scrape"
         puts "Input [exit] to exit the app"
         new_line
 
         input = gets.strip.downcase
         if input == "list" 
             clear_city_and_locations_array
-            new_line
-            puts "CITY SELECTION"
-            divider
-            unique_locations 
-            prompt_location_selection
+            city_selection
+        elsif input == "pages"
+            clear_everything
+            page_selection
         elsif input == "exit"
             exit
         else
-            new_line
-            puts "What kind of an input was that?!?"
-            new_line
-            dissapointed_face
-            new_line
-            puts "please try again..."
+            problematic_input
             new_line
             prompt_return_to_mainscreen
         end
@@ -138,11 +174,9 @@ class JsaajseApp::JobCLI
             end
         else
             JsaajseApp::Job.all.map.select do |job|
-
                 if job.location.include?(city)
                     JsaajseApp::Job.city_array << job
-                end
-                
+                end               
             end
             JsaajseApp::Job.city_array.map.with_index(1) do |job, i|
                 puts "LSTING NUM:  #{i}"
