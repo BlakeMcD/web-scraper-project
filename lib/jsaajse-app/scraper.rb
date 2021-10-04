@@ -3,6 +3,7 @@ class JsaajseApp::Scraper
     attr_accessor :page_number
 
     @@page_number = 1
+    MAXPAGE = 6
 
     def get_page
         url = "https://www.seek.com.au/junior-software-engineer-jobs?page=#{page_number}&salaryrange=70000-999999&salarytype=annual"
@@ -31,7 +32,7 @@ class JsaajseApp::Scraper
 
     def make_jobs_for_multiple_pages
         puts "Loading jobs"
-        while @@page_number < 6 
+        while @@page_number < MAXPAGE 
             print "="
             make_jobs
             @@page_number += 1
