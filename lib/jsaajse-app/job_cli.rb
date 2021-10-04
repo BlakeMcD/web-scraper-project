@@ -9,11 +9,7 @@ class JsaajseApp::JobCLI
         divider_equals
         puts "Welcome to JSAAJSE - an app that searches seek.com.au for Australian junior software engineer roles." 
         divider_equals
-        new_line
-        puts "CITY SELECTION"
-        divider
-        unique_locations 
-        prompt_location_selection
+        city_selection
     end
 
     #Unique locations - goes through entire list, populates an array of unique locations stored in job.rb
@@ -46,6 +42,23 @@ class JsaajseApp::JobCLI
         puts "=================="
     end
 
+    def city_selection
+        new_line
+        puts "CITY SELECTION"
+        divider
+        unique_locations 
+        prompt_location_selection
+    end
+
+    def problematic_input
+        new_line
+        puts "What kind of an input was that?!?"
+        new_line
+        dissapointed_face
+        new_line
+        puts "please try again..."
+    end
+
     #Clearing Functions
     def clear_city_array
         JsaajseApp::Job.city_array_reset_all
@@ -62,7 +75,7 @@ class JsaajseApp::JobCLI
 
     #ASCII
     def dissapointed_face
-        puts "       ಠ_ಠ        "
+        puts "       ಠ_ಠ"
     end
 
     #prompts
@@ -76,17 +89,8 @@ class JsaajseApp::JobCLI
 
         if input == 0 || input > JsaajseApp::Job.locations.length 
             clear_locations_array
-            new_line
-            puts "What kind of an input was that?!?"
-            new_line
-            dissapointed_face
-            new_line
-            puts "please try again..."
-            new_line
-            puts "CITY SELECTION"
-            divider
-            unique_locations 
-            prompt_location_selection
+            problematic_input
+            city_selection
         else
             list_jobs_by_location(JsaajseApp::Job.locations.sort[input-1])
         end
@@ -100,20 +104,11 @@ class JsaajseApp::JobCLI
         input = gets.strip.downcase
         if input == "list" 
             clear_city_and_locations_array
-            new_line
-            puts "CITY SELECTION"
-            divider
-            unique_locations 
-            prompt_location_selection
+            city_selection
         elsif input == "exit"
             exit
         else
-            new_line
-            puts "What kind of an input was that?!?"
-            new_line
-            dissapointed_face
-            new_line
-            puts "please try again..."
+            problematic_input
             new_line
             prompt_return_to_mainscreen
         end
@@ -138,11 +133,9 @@ class JsaajseApp::JobCLI
             end
         else
             JsaajseApp::Job.all.map.select do |job|
-
                 if job.location.include?(city)
                     JsaajseApp::Job.city_array << job
-                end
-                
+                end               
             end
             JsaajseApp::Job.city_array.map.with_index(1) do |job, i|
                 puts "LSTING NUM:  #{i}"
