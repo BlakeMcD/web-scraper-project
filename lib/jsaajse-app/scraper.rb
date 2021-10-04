@@ -31,6 +31,7 @@ class JsaajseApp::Scraper
     end
 
     def make_jobs_for_multiple_pages
+        puts ""
         puts "Loading jobs"
         while @@page_number < MAXPAGE 
             print "="

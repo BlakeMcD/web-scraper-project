@@ -3,9 +3,7 @@ class JsaajseApp::Job
     attr_accessor :job_title, :company_name, :location, :statement, :url
 
     @@all = []
-
     @@locations = []
-
     @@city_array = []
 
     def initialize
@@ -24,7 +22,7 @@ class JsaajseApp::Job
         @@locations
     end
 
-    def self.clear_locations
+    def self.locations_reset_all
         @@locations.clear
     end
 
@@ -37,5 +35,3 @@ class JsaajseApp::Job
     end
 
 end
-
-JsaajseApp::Job.clear_locations
