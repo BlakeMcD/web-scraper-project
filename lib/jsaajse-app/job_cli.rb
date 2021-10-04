@@ -124,14 +124,11 @@ class JsaajseApp::JobCLI
                 
             end
             JsaajseApp::Job.city_array.map.with_index(1) do |job, i|
-                puts "#{i}: #{job.job_title}"
-                puts job.location
-                puts "#{job.company_name}"
-                puts job.statement
-        
-                puts job.url
-        
-                divider
+                puts "LSTING NUM:  #{i}"
+                puts "COMPANY:     #{job.company_name}"
+                puts "TITLE:       #{job.job_title}"
+                puts "DESCRIPTION: #{job.statement}"
+                puts "POSTING URL: #{job.url}"
                 divider
             end
         end
