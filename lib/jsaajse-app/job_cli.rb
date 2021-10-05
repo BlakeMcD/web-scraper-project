@@ -1,9 +1,5 @@
 class JsaajseApp::JobCLI 
 
-    # def initialize
-    #     JsaajseApp::Scraper.new.make_jobs_for_multiple_pages
-    # end
-
     def start
         system("clear")
         divider_equals
@@ -152,9 +148,19 @@ class JsaajseApp::JobCLI
             when "exit"
                 exit
             else
-                problematic_input
-                new_line
-                prompt_return_to_mainscreen
+            input_value = input.to_i
+                if input_value > 0 && input_value <= JsaajseApp::Job.city_array.length 
+                    job = JsaajseApp::Job.city_array[input_value-1]
+                    JsaajseApp::Scraper.scrape_job_page(input_value) if job.job_details == nil
+                    system("clear")
+                    puts job.job_details
+                    new_line
+                    prompt_return_to_mainscreen
+                else
+                    problematic_input
+                    new_line
+                    prompt_return_to_mainscreen
+                end
         end
     end
 
@@ -177,12 +183,9 @@ class JsaajseApp::JobCLI
                 divider
             end
         else
-            JsaajseApp::Job.all.map.select do |job|
-                if job.location.include?(city)
-                    JsaajseApp::Job.city_array << job
-                end               
-            end
-            JsaajseApp::Job.city_array.map.with_index(1) do |job, i|
+            JsaajseApp::Job.city_array = JsaajseApp::Job.all.select { |job| job.location.include?(city) }
+                
+            JsaajseApp::Job.city_array.each.with_index(1) do |job, i|
                 puts "LISTING NUM:  #{i}"
                 puts "COMPANY:     #{job.company_name}"
                 puts "TITLE:       #{job.job_title}"
@@ -191,6 +194,7 @@ class JsaajseApp::JobCLI
                 divider
             end
         end
+        puts "Input a job's listing number if you'd like to find out more about it."
         prompt_return_to_mainscreen
     end
 end

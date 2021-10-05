@@ -1,6 +1,6 @@
 class JsaajseApp::Job 
 
-    attr_accessor :job_title, :company_name, :location, :statement, :url
+    attr_accessor :job_title, :company_name, :location, :statement, :url, :job_details
 
     @@all = []
     @@locations = []
@@ -28,6 +28,10 @@ class JsaajseApp::Job
 
     def self.city_array
         @@city_array
+    end
+
+    def self.city_array=(array)
+        @@city_array = array
     end
 
     def self.city_array_reset_all

@@ -30,6 +30,14 @@ class JsaajseApp::Scraper
         end
     end
 
+    def self.scrape_job_page(num)
+        job = JsaajseApp::Job.city_array[num-1]
+
+        html = open(job.url)
+        job.job_details = Nokogiri::HTML(html).css("div[data-automation='jobAdDetails']").text.strip
+        
+    end
+
     def make_jobs_for_multiple_pages
         puts ""
         puts "Scraping pages"
